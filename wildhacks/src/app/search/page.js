@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 // Simulated API for commodities
 async function fetchTrendingCommodities() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/usda/top-exports-json");
+    const response = await fetch("https://urban-umbrella-qpg4rpv7g77cx9p7-5000.app.github.dev/usda/top-exports-json");
     const data = await response.json();
 
     if (data.status === "success") {
@@ -49,11 +49,11 @@ export default function Search() {
     };
 
     // default value before plumbing with API
-    const [trending, setTrending] = React.useState([
-        { name: "Wheat", price: 231.42 },
-        { name: "Soybeans", price: 318.29 },
-        { name: "Corn", price: 187.56 },
-      ]);
+    // const [trending, setTrending] = React.useState([
+    //     { name: "Wheat", price: 231.42 },
+    //     { name: "Soybeans", price: 318.29 },
+    //     { name: "Corn", price: 187.56 },
+    //   ]);
     
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-12 pb-24 gap-20 sm:p-24 font-[family-name:var(--font-geist-sans)]">
