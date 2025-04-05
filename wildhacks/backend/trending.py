@@ -1,7 +1,11 @@
 from flask import Flask, jsonify
 import requests
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
+
 
 API_KEY = "LCW7rRzicd9BBc6iB6zWWXPisvndfRegoVuCE0og"
 EXPORTS_URL = "https://api.fas.usda.gov/api/gats/censusExports"
