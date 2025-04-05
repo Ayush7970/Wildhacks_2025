@@ -4,29 +4,30 @@ import React, { useEffect, useState, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 
 export default function Home() {
-  const [splineLoading, setSplineLoading] = useState(true);
+  // const [splineLoading, setSplineLoading] = useState(true);
+  const [splineLoaded, setSplineLoaded] = useState(false);
+  const [mainInView, setMainInView] = useState(false);
 
-  const [mainVisible, setMainVisible] = useState(false);
+  // const [mainVisible, setMainVisible] = useState(false);
   const [secondHeadingVisible, setSecondHeadingVisible] = useState(false);
   
   const mainRef = useRef(null);
   const secondHeadingRef = useRef(null);
 
-  const mainWasVisible = useRef(false);
+  // const mainWasVisible = useRef(false);
   const secondWasVisible = useRef(false);
 
-  // Intersection Observer for Main Section
+  // Intersection Observer for the hero section.
   useEffect(() => {
     if (!mainRef.current) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!mainWasVisible.current && entry.intersectionRatio >= 0.3) {
-            setMainVisible(true);
-            mainWasVisible.current = true;
-          } else if (mainWasVisible.current && entry.intersectionRatio < 0.6) {
-            setMainVisible(false);
-            mainWasVisible.current = false;
+          // Fade in when at least 30% is visible, fade out when less than 60% is visible.
+          if (entry.intersectionRatio >= 0.3) {
+            setMainInView(true);
+          } else if (entry.intersectionRatio < 0.6) {
+            setMainInView(false);
           }
         });
       },
@@ -63,9 +64,13 @@ export default function Home() {
     };
   }, []);
 
+  // When the Spline scene loads, mark it as loaded.
   const handleSplineLoad = () => {
-    setSplineLoading(false);
+    setSplineLoaded(true);
   };
+
+  // Combine both conditions for hero visibility.
+  const mainVisible = splineLoaded && mainInView;
 
   return (
     <div>
@@ -76,7 +81,7 @@ export default function Home() {
         }`}
       >
         <div className="absolute inset-0 z-0">
-          {splineLoading && (
+          {!splineLoaded && (
             <div className="spline-loading"></div>
           )}
           <Spline 
