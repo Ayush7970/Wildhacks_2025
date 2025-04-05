@@ -28,6 +28,8 @@ async function fetchTrendingCommodities() {
 
 
 
+
+
 // this is the landing page. it contains the search bar using Gemini and displays trending commodities
 // people are purchasing.
 
@@ -49,11 +51,11 @@ export default function Search() {
     };
 
     // default value before plumbing with API
-    // const [trending, setTrending] = React.useState([
-    //     { name: "Wheat", price: 231.42 },
-    //     { name: "Soybeans", price: 318.29 },
-    //     { name: "Corn", price: 187.56 },
-    //   ]);
+    const [trending, setTrending] = React.useState([
+        { name: "Wheat", price: 231.42 },
+        { name: "Soybeans", price: 318.29 },
+        { name: "Corn", price: 187.56 },
+      ]);
     
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-12 pb-24 gap-20 sm:p-24 font-[family-name:var(--font-geist-sans)]">
@@ -72,18 +74,14 @@ export default function Search() {
       <main className="flex flex-col gap-[40px] row-start-2 items-center sm:items-start">
     
 
-        {/* i will need to create a search function that returns separately here */}
+          <div className="grid w-full max-w-md items-center gap-2 scale-140">
+            <Label htmlFor="search">What produce would you like to buy?</Label>
+            <form method="GET" action="/search" className="flex w-full max-w-sm items-center space-x-2">
+              <Input type="text" placeholder="I'm importing 100 kilograms of avocado from Mexico" />
+              <Button type="submit">Search</Button>
+            </form>
+          </div>
 
-        <div className="grid w-full max-w-md items-center gap-2 scale-140">
-              <Label htmlFor="search">What produce would you like to buy?</Label>
-              <form method="GET" action="/search" className="flex w-full max-w-sm items-center space-x-2">
-                <Input type="text" placeholder="I'm importing 100 kilograms of avocado from Mexico"/>
-                <Button type="submit">Search</Button>
-              </form>
-        </div>
-
-
-        {/* this is the boxes containing prices for trending commodities */}
         <div>
             <h2 className="text-xl font-bold mb-4">Trending Commodities</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

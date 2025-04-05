@@ -74,7 +74,8 @@ def GetTopAgriExportsJSON():
                 "data": [
                     {
                         "name": hs6_map.get(item["hS10Code"][:6], f"Unknown ({item['hS10Code'][:6]})"),
-                        "value": item["value"],
+                        # to make the numbers look realistic
+                        "value": item["value"] / 10000,
                         "hs10": item["hS10Code"]
                     }
                     for item in top_exports
