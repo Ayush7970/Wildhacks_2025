@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+import Spline from "@splinetool/react-spline";
 
 export default function Home() {
+  const [splineLoading, setSplineLoading] = useState(true);
+
   const [mainVisible, setMainVisible] = useState(false);
   const [secondHeadingVisible, setSecondHeadingVisible] = useState(false);
-
+  
   const mainRef = useRef(null);
   const secondHeadingRef = useRef(null);
 
@@ -60,17 +63,30 @@ export default function Home() {
     };
   }, []);
 
+  const handleSplineLoad = () => {
+    setSplineLoading(false);
+  };
+
   return (
     <div>
       <div
         ref={mainRef}
-        className={`flex flex-col items-center justify-center min-h-screen bg-white text-center transition-all transform duration-2000 ${
+        className={`relative flex flex-col items-center justify-center min-h-screen text-center transition-all transform duration-2000 ${
           mainVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
-        <h1 className="text-9xl font-bold mb-25">Import Calculator</h1>
-        <div className="flex gap-4">
-          <button className="px-10 py-8 bg-green-400 text-2xl text-black font-bold rounded-full hover:bg-green-600">
+        <div className="absolute inset-0 z-0">
+          {splineLoading && (
+            <div className="spline-loading"></div>
+          )}
+          <Spline 
+            scene="https://prod.spline.design/RxF1KmmVuF0zLFf4/scene.splinecode"
+            onLoad={handleSplineLoad}
+          />
+        </div>
+        <div className="relative z-10 flex flex-col items-center">
+          <h1 className="text-9xl font-bold mb-25">Import Calculator</h1>
+          <button className="mx-auto px-10 py-8 bg-green-400 text-2xl text-black font-bold rounded-full hover:bg-green-600">
             Get Started
           </button>
         </div>
@@ -82,7 +98,12 @@ export default function Home() {
           secondHeadingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
-        <h2 className="text-6xl font-bold">For all your import calculation needs.</h2>
+        <h2 className="text-6xl mb-5 font-bold">
+          For all your import calculation needs.
+        </h2>
+        <p className="text-2xl mt-4">
+          Importing made easy with our comprehensive calculator.
+        </p>
       </div>
     </div>
   );
