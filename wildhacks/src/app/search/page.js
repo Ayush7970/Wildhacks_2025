@@ -1,28 +1,96 @@
+'use client'
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from 'react';
+
+
+
+// Simulated API function for Gemini
+async function fetchGeminiResponse(prompt) {
+    // Replace with your Gemini API call
+    console.log("Sending to Gemini:", prompt);
+    return `You asked about: ${prompt}`;
+  }
+  
+// Simulated API for commodities
+async function fetchTrendingCommodities() {
+return [
+    { name: "Wheat", price: 231.42 },
+    { name: "Soybeans", price: 318.29 },
+    { name: "Corn", price: 187.56 },
+];
+}
+
+
 
 // this is the landing page. it contains the search bar using Gemini and displays trending commodities
 // people are purchasing.
 
 export default function Search() {
+
+    const [userInput, setUserInput] = useState('');
+    const [geminiResponse, setGeminiResponse] = useState('');
+  
+    // 🔁 Load trending commodities on page load
+    useEffect(() => {
+      fetchTrendingCommodities().then(setTrending);
+    }, []);
+  
+    // 🔍 Handle form submission
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const response = await fetchGeminiResponse(userInput);
+      setGeminiResponse(response);
+    };
+
+    // default value before plumbing with API
+    const [trending, setTrending] = React.useState([
+        { name: "Wheat", price: 231.42 },
+        { name: "Soybeans", price: 318.29 },
+        { name: "Corn", price: 187.56 },
+      ]);
+    
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-12 pb-24 gap-20 sm:p-24 font-[family-name:var(--font-geist-sans)]">
-      
-      <main className="flex flex-col gap-[40px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={200}
-          height={42}
-          priority
-        />
+        <header className="text-center mb-12">
+            {/* this image should be the new logo */}
+            <Image
+            className="dark:invert"
+            src="/next.svg"
+            alt="Next.js logo"
+            width={200}
+            height={42}
+            priority
+            />
+        </header>
 
-        <div className="grid w-full max-w-md items-center gap-2">
+      <main className="flex flex-col gap-[40px] row-start-2 items-center sm:items-start">
+    
+
+        {/* i will need to create a search function that returns separately here */}
+
+        <div className="grid w-full max-w-md items-center gap-2 scale-140">
               <Label htmlFor="search">What produce would you like to buy?</Label>
-              <Input type="text" placeholder="I'm importing 100 kilograms of avocado from Mexico"/>
+              <form method="GET" action="/search" className="flex w-full max-w-sm items-center space-x-2">
+                <Input type="text" placeholder="I'm importing 100 kilograms of avocado from Mexico"/>
+                <Button type="submit">Search</Button>
+              </form>
         </div>
+
+        <div>
+            <h2 className="text-xl font-bold mb-4">Trending Commodities</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {trending.map((item, index) => (
+                <div key={index} className="rounded-2xl p-4 shadow-md border bg-white dark:bg-gray-950">
+                    <h3 className="text-lg font-semibold">{item.name}</h3>
+                    <p className="text-muted-foreground">${item.price.toFixed(2)}</p>
+                </div>
+                ))}
+            </div>
+        </div>
+
 
 
         <div className="flex gap-6 items-center flex-col sm:flex-row">
