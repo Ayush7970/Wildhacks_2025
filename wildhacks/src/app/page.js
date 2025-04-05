@@ -1,4 +1,8 @@
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
+
+// this is the landing page. it contains the search bar using Gemini and displays trending commodities
+// people are purchasing.
 
 export default function Home() {
   return (
@@ -20,9 +24,7 @@ export default function Home() {
             </code>
             .
           </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
+          <Input/>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
